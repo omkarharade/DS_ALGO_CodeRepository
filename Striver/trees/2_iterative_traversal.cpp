@@ -73,6 +73,36 @@ vector<int> iterative_preorder(Node* root) {
 	return preorder;
 }
 
+// iterative postorder 2 stack approach
+
+vector<int> iterative_postorder(Node* root) {
+
+	stack<Node*> st1, st2;
+	vector<int> postorder;
+	Node* node = root = root;
+
+	st1.push(node);
+
+	while (st1.size()) {
+
+		node = st1.top();
+		st1.pop();
+
+
+		if (node -> left != NULL) st1.push(node -> left);
+		if (node -> right != NULL) st1.push(node -> right);
+
+		st2.push(node);
+
+	}
+
+	while (st2.size() != 0) {
+
+		postorder.push_back(st2.top() -> data);
+		st2.pop();
+	}
+	return postorder;
+}
 
 
 
@@ -93,13 +123,12 @@ int main() {
 	node5 -> left = node6;
 	node5 -> right = node7;
 
-	vector<int> ans = iterative_preorder(head);
+	vector<int> ans = iterative_postorder(head);
 	for (int i = 0; i < ans.size(); ++i)
 	{
 		cout << ans[i] << " ";
 	}
-	nline;
-
+	cout << nline;
 
 
 	return 0;
