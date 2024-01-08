@@ -20,7 +20,7 @@ int rec(int l, int r) {
 
 
 	// compute
-	int ans = -1e9;
+	int ans = 1e9;
 
 	for (int p = l + 1; p <= r - 1; ++p)
 	{
