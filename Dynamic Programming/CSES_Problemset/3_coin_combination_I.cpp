@@ -74,105 +74,80 @@ void file_i_o()
 #endif
 }
 
-/*
 
-Consider a money system consisting of n coins. Each coin has a positive integer value. Your task is to produce a sum of money x using the available coins in such a way that the number of coins is minimal.
-For example, if the coins are \{1,5,7\} and the desired sum is 11, an optimal solution is 5+5+1 which requires 3 coins.
-Input
-The first input line has two integers n and x: the number of coins and the desired sum of money.
-The second line has n distinct integers c_1,c_2,\dots,c_n: the value of each coin.
-Output
-Print one integer: the minimum number of coins. If it is not possible to produce the desired sum, print -1.
-Constraints
-
-1 <= n <= 100
-1 <= x <= 10^6
-1 <= c_i <= 10^6
-
-Example
-Input:
-3 11
-1 5 7
-
-Output:
-3
-
-*/
-
-int minCoins(vector<int>& C, int currSum, int n, int x) {
+int combinations(vector<int>& coins, int currSum, int x, int n) {
 
 	// pruning
-	if (currSum > x) return 1e9;
-
+	if (currSum > x) return 0;
 
 	// base case
-	if (currSum == x) return 0;
-
+	if (currSum == x) return 1;
 
 	// compute
-	int minOfCoins = 1e9;
+	int ways = 0;
 
 	for (int i = 0; i < n; ++i)
 	{
-		minOfCoins = min(minOfCoins, 1 + minCoins(C, currSum + C[i], n, x));
+		ways = (ways + combinations(coins, currSum + coins[i], x, n)) % MOD;
 	}
 
 	// return
-	return (minOfCoins == 1e9 ? 1e9 : minOfCoins);
+	return ways;
 }
 
 
-
 vector<int> dp;
-
-int minCoinsDP(vector<int>& C, int currSum, int n, int x) {
+int combinationsDP(vector<int>& coins, int currSum, int x, int n) {
 
 	// pruning
-	if (currSum > x) return 1e9;
+	if (currSum > x) return 0;
 
 	// base case
-	if (currSum == x) return 0;
+	if (currSum == x) return 1;
 
 	// cache check
 	if (dp[currSum] != -1) return dp[currSum];
 
 
 	// compute
-	int minOfCoins = 1e9;
+	int ways = 0;
 
 	for (int i = 0; i < n; ++i)
 	{
-		minOfCoins = min(minOfCoins, 1 + (minCoinsDP(C, currSum + C[i], n, x)));
+		ways = (ways + combinationsDP(coins, currSum + coins[i], x, n)) % MOD;
 	}
 
-	// save and return
-	return dp[currSum] = ((minOfCoins == int(1e9)) ? int(1e9) : minOfCoins);
+	// return
+	return dp[currSum] = ways;
 }
 
-int minCoinsBU(vector<int>& C, int n, int x) {
+int combinationsBU(vector<int>& coins, int x, int n) {
 
-	vector<int> DP(x + 1, -1);
-	DP[x] = 0;
+	vector<int> DP(x + 1);
+	DP[x] = 1;
 
-	for (int i = x - 1; i >= 0; i--)
-	{
-		int minOfCoins = 1e9;
 
+	// states --
+	for (int i = x - 1; i >= 0; i--) {
+
+		int ways = 0;
+
+		// transitions --
 		for (int j = 0; j < n; ++j)
 		{
 
-			if (i + C[j] <= x) {
-				minOfCoins = min(minOfCoins, 1 + DP[i + C[j]]);
+			if (i + coins[j] <= x) {
+
+				ways  = (ways + DP[i + coins[j]]) % MOD;
+
 			}
 		}
 
-		DP[i] = (minOfCoins == int(1e9) ? 1e9 : minOfCoins);
+		DP[i] = ways;
 	}
 
-	return ((DP[0] == 1e9 ) ? -1 : DP[0]);
+	return DP[0];
 }
-
-
 
 void solve() {
 	// solve here....
@@ -180,25 +155,18 @@ void solve() {
 	int n, x;
 	cin >> n >> x;
 
-	vector<int> C(n);
+	vector<int> coins(n);
 	dp.resize(x + 1, -1);
 
 	for (int i = 0; i < n; ++i)
 	{
-		cin >> C[i];
+		cin >> coins[i];
 	}
 
-	// cout << minCoins(C, 0, n, x) << nline;
+	// cout << combinations(coins, 0, x, n) << nline;
+	// cout << combinationsDP(coins, 0, x, n) << nline;
+	cout << combinationsBU(coins, x, n) << nline;
 
-	// for (int i = 0; i <= x; ++i)
-	// {
-	// 	dp[i] = -1;
-	// }
-
-	// cout << (minCoinsDP(C, 0, n, x) >= int(1e9) ? -1 : dp[0]) << nline;
-
-
-	cout << minCoinsBU(C, n, x) << nline;
 }
 
 int main()
