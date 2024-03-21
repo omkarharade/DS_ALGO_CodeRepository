@@ -74,66 +74,65 @@ void file_i_o()
 #endif
 }
 
-bool isSafe(int r, int c, int n, int m) {
+bool charCheck(char a, char b) {
 
-	return r >= 0 and r < n and c >= 0 and c < m;
+	if (a == '?' || b == '?') return true;
+
+	return a == b;
 }
 
-void dfs(vector<vector<char>>& grid, vector<vector<bool>>& vis, int r, int c, int n, int m) {
+bool check(string& s, int len) {
+
+	int count = 0;
+	int n = s.length();
+
+	for (int i = 0; i < len; ++i)
+	{
+		if (!charCheck(s[i], s[i + len])) {
+
+			count++;
+		}
+	}
+
+	if (count == 0) return  true;
+
+	// element in index is the new element in window
 
 
-	if (!isSafe( r, c, n, m)) return;
-	if (grid[r][c] == '#') return;
-	if (vis[r][c]) return;
+	for (int i = len; i + len < n; i++) {
+
+		// check previos char pair
+		if (!charCheck(s[i], s[i - len])) count--;
+
+		// check next char pair
+		if (!charCheck(s[i], s[i + len])) count++;
 
 
-	vis[r][c] = 1;
+		if (count == 0) return true;
+	}
 
-	// explore
-	dfs(grid, vis, r - 1, c, n, m);
-	dfs(grid, vis, r + 1, c, n, m);
-	dfs(grid, vis, r, c + 1, n, m);
-	dfs(grid, vis, r, c - 1, n, m);
-
+	return false;
 }
-
 
 void solve() {
 	// solve here....
 
-	int n, m;
-	cin >> n >> m;
+	string s;
+	cin >> s;
 
-	vector<vector<char>> grid(n, vector<char>(m));
-	vector<vector<bool>> vis(n, vector<bool>(m, 0));
+	int n = s.length();
+	int ans = 0;
+	// for the length of silding window
 
-	for (int i = 0; i < n; ++i)
+	for (int i = 1; i <= n / 2 ; ++i)
 	{
-		for (int j = 0; j < m; ++j)
-		{
-			cin >> grid[i][j];
+		if (check(s, i)) {
+
+			ans = 2 * i;
 		}
 	}
 
-
-	int roomsCount = 0;
-
-	for (int i = 0; i < n; i++) {
-
-		for (int j = 0; j < m; j++) {
-
-			if (grid[i][j] == '#') continue;
-
-			if (vis[i][j] == 0) {
-
-				roomsCount++;
-				dfs(grid, vis, i, j, n, m);
-			}
-		}
-	}
-
-	cout << roomsCount << nline;
-
+	cout << ans << nline;
 }
 
 int main()
@@ -143,7 +142,7 @@ int main()
 	// Write your code here....
 
 	int t = 1;
-	// cin >> t;
+	cin >> t;
 
 	while (t-- > 0)
 	{
