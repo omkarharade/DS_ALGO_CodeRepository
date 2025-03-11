@@ -14,10 +14,14 @@ void printArray(vector<int>& vec, int n) {
 
 }
 
+
+
+
+// bubble sort  -  T/C : O(N^2)
 void bubble_sort_NAIVE(vector<int>& vec, int n) {
 
 
-	// first loop sets the second last element to be checked
+	// first loop sets the second last element that is to be checked
 	// as last element is compared with 2nd last
 
 	for (int i = n - 2; i >= 0; i--) {
@@ -37,20 +41,28 @@ void bubble_sort_NAIVE(vector<int>& vec, int n) {
 	}
 }
 
-// bubble sort iterative -  T/C : O(N^2)
+
+
+
+// bubble sort iterative effecient -  T/C : O(N^2)
 void bubbleSort(vector<int>& vec, int n) {
 
 
-	for (int i = 0; i < n - 1; ++i)
+	// first loop sets the second last element that is to be checked
+	// as last element is compared with 2nd last
+
+	for (int i = n - 2; i >= 0; i--)
 	{
+
+		// to break the loop if no two elements are swapped, i.e numbers are sorted
 		bool is_swapped = false;
 
-		for (int j = 0; j < n - i - 1; ++j)
+		// then loop to compare every element till the i-th element is compared
+		for (int j = 0; j <= i; ++j)
 		{
 			if (vec[j] > vec[j + 1]) {
 
 				// swap and update status
-
 				swap(vec[j], vec[j + 1]);
 				is_swapped = true;
 			}

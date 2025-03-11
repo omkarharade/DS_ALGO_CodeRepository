@@ -1,157 +1,63 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-#define MOD 1000000007
-#define MOD1 998244353
-#define INF 1e18
-#define nline "\n"
-#define pb push_back
-#define ppb pop_back
-#define mp make_pair
-#define ff first
-#define ss second
-#define PI 3.141592653589793238462
-#define set_bits __builtin_popcountll
-#define sz(x) ((int)(x).size())
-#define all(x) (x).begin(), (x).end()
-
-typedef long long ll;
-typedef unsigned long long ull;
-typedef long double lld;
-typedef vector<long long> vll;
-typedef vector<int> vi;
-typedef pair<int, int> pii;
-// typedef tree<pair<int, int>, null_type, less<pair<int, int>>, rb_tree_tag, tree_order_statistics_node_update > pbds; // find_by_order, order_of_key
-
-#ifndef ONLINE_JUDGE
-#define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
-#else
-#define debug(x)
-#endif
-
-void _print(ll t) {cerr << t;}
-void _print(int t) {cerr << t;}
-void _print(string t) {cerr << t;}
-void _print(char t) {cerr << t;}
-void _print(lld t) {cerr << t;}
-void _print(double t) {cerr << t;}
-void _print(ull t) {cerr << t;}
-
-template <class T, class V> void _print(pair <T, V> p);
-template <class T> void _print(vector <T> v);
-template <class T> void _print(set <T> v);
-template <class T> void _print(unordered_set <T> v);
-template <class T, class V> void _print(map <T, V> v);
-template <class T, class V> void _print(unordered_map <T, V> v);
-template <class T> void _print(multiset <T> v);
-template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.ff); cerr << ","; _print(p.ss); cerr << "}";}
-template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T> void _print(unordered_set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T, class V> void _print(unordered_map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
+#define nline "\n";
 
 
 
-template<typename T1, typename T2> // cin >> pair<T1, T2>
-istream& operator>>(istream &in, pair<T1, T2> &p) { return (in >> p.first >> p.second);}
-template<typename T> // cin >> vector<T>
-istream& operator>>(istream &in, vector<T> &v) {for (auto &it : v) cin >> it; return in;}
-template<typename T1, typename T2> // cout << pair<T1, T2>
-ostream& operator<<(ostream &out, const pair<T1, T2> &p) {return (out << p.first << " " << p.second); }
-template<typename T> //cout << vector<T>
-ostream& operator<<(ostream &out, const vector<T> &c) {for (auto &it : c) cout << it << " "; return out;}
+// implement bubble sort all variations you know
 
+void printArray(vector<int>&vec, int n) {
 
-void file_i_o()
-{
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
-	cout.tie(0);
-#ifndef ONLINE_JUDGE
-	freopen("error.txt", "w", stderr);
-#endif
-}
-
-bool charCheck(char a, char b) {
-
-	if (a == '?' || b == '?') return true;
-
-	return a == b;
-}
-
-bool check(string& s, int len) {
-
-	int count = 0;
-	int n = s.length();
-
-	for (int i = 0; i < len; ++i)
+	for (int i = 0; i < n; ++i)
 	{
-		if (!charCheck(s[i], s[i + len])) {
+		cout << vec[i] << " ";
+	}
 
-			count++;
+	cout << nline;
+}
+
+
+
+void bubble_sort(vector<int>& vec, int n) {
+
+
+	// first loop sets the second last element to be checked
+	// as last element is compared with 2nd last
+
+	for (int i = n - 2; i >= 0; i--) {
+
+		// then loop to compare every element till the i-th element is compared
+
+		for (int j = 0; j <= i; j++) {
+
+			// if element in the left is greater, swap those elements values
+
+			if (vec[j] > vec[j + 1]) {
+
+				swap(vec[j], vec[j + 1]);
+
+			}
 		}
 	}
-
-	if (count == 0) return  true;
-
-	// element in index is the new element in window
-
-
-	for (int i = len; i + len < n; i++) {
-
-		// check previos char pair
-		if (!charCheck(s[i], s[i - len])) count--;
-
-		// check next char pair
-		if (!charCheck(s[i], s[i + len])) count++;
-
-
-		if (count == 0) return true;
-	}
-
-	return false;
 }
 
-void solve() {
-	// solve here....
+int main() {
 
-	string s;
-	cin >> s;
+	int n;
+	cin >> n;
 
-	int n = s.length();
-	int ans = 0;
-	// for the length of silding window
+	vector<int> vec(n);
 
-	for (int i = 1; i <= n / 2 ; ++i)
+
+	for (int i = 0; i < n; ++i)
 	{
-		if (check(s, i)) {
-
-			ans = 2 * i;
-		}
+		cin >> vec[i];
 	}
 
-	cout << ans << nline;
-}
+	bubble_sort(vec, n);
 
-int main()
-{
-	clock_t begin = clock();
-	file_i_o();
-	// Write your code here....
+	printArray(vec, n);
 
-	int t = 1;
-	cin >> t;
 
-	while (t-- > 0)
-	{
-		solve();
-	}
-
-#ifndef ONLINE_JUDGE
-	clock_t end = clock();
-	cout << "\n\nExecuted In: " << double(end - begin) / CLOCKS_PER_SEC * 1000 << " ms";
-#endif
 	return 0;
 }
