@@ -81,6 +81,7 @@ void printArray(vector<int>& vec, int n) {
 	cout << nline;
 }
 
+
 int main() {
 
 	int n;

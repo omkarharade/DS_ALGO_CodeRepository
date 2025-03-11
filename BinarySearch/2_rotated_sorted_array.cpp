@@ -74,6 +74,17 @@ void file_i_o()
 #endif
 }
 
+
+/*
+
+ Q. find the number of rotations in the circular sorted array
+
+ -> It's answer can be given by finding the index of smallest number of array
+
+ 	no. of rotations  = index of smallest number
+
+*/
+
 bool check(int mid, int start) {
 
 	return mid < start;
